@@ -6,7 +6,6 @@ import java.sql.*;
 
 public class Review {
     public static void main(String[] args) throws SQLException {
-        String connectionStr = "jdbc:oracle:thin:@3.83.129.121:1521:XE";
         DB_Utility.createConnection();
         ResultSet rs   = DB_Utility.runQuery ("SELECT * FROM JOBS") ;
 
@@ -47,9 +46,6 @@ public class Review {
 
         // clean up the connection , statement and resultset object after usage
         DB_Utility.destroy();
-
-
-
 
     }
 }

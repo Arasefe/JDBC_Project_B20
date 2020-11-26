@@ -1,17 +1,13 @@
 package day2;
 
+import utility.DB_Utility;
+
 import java.sql.*;
 
 public class GettingMoreAboutResultSet {
     public static void main(String[] args) throws SQLException {
-
-        String connectionStr = "jdbc:oracle:thin:@3.83.129.121:1521:XE";
-        String username = "hr" ;
-        String password = "hr" ;
-
-        Connection conn = DriverManager.getConnection(connectionStr,username,password) ;
-        Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs   =   stmnt.executeQuery("SELECT * FROM EMPLOYEES") ;
+        DB_Utility.createConnection();
+        ResultSet rs   =  DB_Utility.runQuery("SELECT * FROM EMPLOYEES") ;
 
         // Metadata -- data about the data --
         // ResultSetMetaData -- data about the ResultSet object that contain our resulting rows and columns
@@ -36,8 +32,8 @@ public class GettingMoreAboutResultSet {
             System.out.println("Column name " + rsmd.getColumnLabel(colNum)   );
         }
 
-        rs.close();
-        stmnt.close();
-        conn.close();
+        DB_Utility.destroy();
+
+
     }
 }

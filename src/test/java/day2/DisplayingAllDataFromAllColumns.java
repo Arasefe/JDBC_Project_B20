@@ -1,17 +1,13 @@
 package day2;
 
+import utility.DB_Utility;
+
 import java.sql.*;
 
 public class DisplayingAllDataFromAllColumns {
     public static void main(String[] args) throws SQLException {
-        // REPLACE THIS IP ADDRESS WITH YOUR OWN THAT WORKING IN SQL DEVELOPER
-        String connectionStr = "jdbc:oracle:thin:@3.83.129.121:1521:XE";
-        String username = "hr" ;
-        String password = "hr" ;
-
-        Connection conn = DriverManager.getConnection(connectionStr,username,password) ;
-        Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs   =   stmnt.executeQuery("SELECT * FROM EMPLOYEES") ;
+        DB_Utility.createConnection();
+        ResultSet rs   =  DB_Utility.runQuery("SELECT * FROM EMPLOYEES") ;
 
         // print out entire first row of Employee table from above query
         ResultSetMetaData rsmd = rs.getMetaData();
@@ -22,13 +18,13 @@ public class DisplayingAllDataFromAllColumns {
         for (int colNum = 1; colNum <= columnCount; colNum++) {
             System.out.print( rsmd.getColumnLabel(colNum) + "\t"  );
         }
-        System.out.println("----------------------------");
+        System.out.println("\n----------------------------");
         rs.next() ;
 
-        // this whole loop is getting one row of data
-        for (int colNum = 1; colNum <= columnCount; colNum++) {
-            System.out.print(rs.getString( colNum ) + "\t" );
-        }
+//        // this whole loop is getting one row of data
+//        for (int colNum = 1; colNum <= columnCount; colNum++) {
+//            System.out.print(rs.getString( colNum ) + "\t" );
+//        }
 
         // now how do you get all the row if you know how to get one row ???
         // I want to go from the first row till the last row and print all columns
@@ -42,9 +38,7 @@ public class DisplayingAllDataFromAllColumns {
             System.out.println();
         }
 
-        rs.close();
-        stmnt.close();
-        conn.close();
+        DB_Utility.destroy();
 
     }
 }
